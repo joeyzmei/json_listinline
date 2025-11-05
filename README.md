@@ -1,4 +1,5 @@
-Problem: json.dump() files are too large
+### Problem:
+json.dump() files are too large because each element occupies a line
 
 ```json
 {
@@ -24,10 +25,9 @@ Problem: json.dump() files are too large
         [
           10.10157539072999,
           1761861945
-        ],
-			...
+        ]
 ```
-Solution:  
+### Solution:  
 Modify the _iterencode_list() function in encode.py so that a list without nesting will be written in a single line
 
 Example:  
@@ -42,13 +42,10 @@ Example:
         [1.187630252143811,1761870136],
         [1.2073565349609925,1761870162],
         [1.2049253745769564,1761870187],
-		...
-
-
 
 ```
-
-Original encode.py line 288-295:
+### How
+Replace encode.py line 288-295:
 ```python
         if _indent is not None:
             _current_indent_level += 1
@@ -59,7 +56,7 @@ Original encode.py line 288-295:
             newline_indent = None
             separator = _item_separator
 ```
-The tweak:
+with
 ```python
 	_one_dimension = not any(isinstance(i, (list, tuple, dict)) for i in lst)
         # If it's 1D, format on one line even with indent
