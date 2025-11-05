@@ -18,16 +18,8 @@ json.dump() files are too large because each element occupies a line
           9.726992772946629,
           1761861897
         ],
-        [
-          9.96394760055679,
-          1761861921
-        ],
-        [
-          10.10157539072999,
-          1761861945
-        ]
 ```
-### Solution:  
+### The idea  
 Modify the _iterencode_list() function in encode.py so that a list without nesting will be written in a single line
 
 Example:  
@@ -44,7 +36,7 @@ Example:
         [1.2049253745769564,1761870187],
 
 ```
-### How
+### Implementation
 Replace encode.py line 288-295:
 ```python
         if _indent is not None:
