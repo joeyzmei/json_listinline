@@ -1,8 +1,55 @@
+Problem: json.dump() files are too large
 
-Modify the _iterencode_list() function in encode.py so that a list without nesting can be outputted in a single line
+```json
+{
+  "250": {
+    "1": {
+      "1430002025103014120754": [
+        [
+          9.47805783127511,
+          1761861825
+        ],
+        [
+          9.47905050272623,
+          1761861849
+        ],
+        [
+          9.726992772946629,
+          1761861897
+        ],
+        [
+          9.96394760055679,
+          1761861921
+        ],
+        [
+          10.10157539072999,
+          1761861945
+        ],
+			...
+```
+Solution:  
+Modify the _iterencode_list() function in encode.py so that a list without nesting will be written in a single line
+
+Example:  
+```json
+{
+  "250": {
+    "1": {
+      "1715002025103014120737": [
+        [0.8827610247856623,1761870062],
+        [0.9273721487571754,1761870086],
+        [1.0866011942956932,1761870112],
+        [1.187630252143811,1761870136],
+        [1.2073565349609925,1761870162],
+        [1.2049253745769564,1761870187],
+		...
+
+
+
+```
 
 Original encode.py line 288-295:
-
+```python
         if _indent is not None:
             _current_indent_level += 1
             newline_indent = '\n' + _indent * _current_indent_level
@@ -11,7 +58,7 @@ Original encode.py line 288-295:
         else:
             newline_indent = None
             separator = _item_separator
-
+```
 The tweak:
 ```python
 	_one_dimension = not any(isinstance(i, (list, tuple, dict)) for i in lst)
@@ -25,3 +72,4 @@ The tweak:
             newline_indent = '\n' + _indent * _current_indent_level
             separator = _item_separator + newline_indent
             buf += newline_indent
+```
